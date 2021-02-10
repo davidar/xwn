@@ -1,0 +1,182 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://xwn.hlt.utdallas.edu" 
+	xmlns="http://xwn.hlt.utdallas.edu"
+	elementFormDefault="qualified">
+<!-- 
+XWN 2.0-1 software and database is being provided to you, the LICENSEE, 
+by University of Texas at Dallas under the following license. 
+By obtaining, using and/or copying this software and database, 
+you agree that you have read, understood, and will comply with these terms 
+and conditions.:
+
+Permission to use, copy, modify and distribute this software and database 
+and its documentation for any purpose and without fee or royalty is hereby 
+granted, provided that you agree to comply with the following copyright notice
+ and statements, including the disclaimer, and that the same appear 
+on ALL copies of the software, database and documentation, including 
+modifications that you make for internal use or for distribution.
+
+eXtended WordNet 2.0-1 for WordNet 2.0 Copyright &copy; 2003 by University of Texas 
+at Dallas. All rights reserved.(WordNet is copyrighted by Princeton University)
+
+THIS SOFTWARE AND DATABASE IS PROVIDED "AS IS" AND UNIVERSITY OF TEXAS 
+AT DALLAS MAKES NO REPRESENTATIONS OR WARRANTIES, EXPRESS OR IMPLIED. 
+BY WAY OF EXAMPLE, BUT NOT LIMITATION, UNIVERSITY OF TEXAS AT DALLAS 
+MAKES NO REPRESENTATIONS OR WARRANTIES OF MERCHANTABILITY OR FITNESS 
+FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF THE LICENSED SOFTWARE, 
+DATABASE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY PATENTS, 
+COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.
+
+The name of University of Texas at Dallas may not be used in advertising 
+or publicity pertaining to distribution of the software and/or database. 
+Title to copyright in this software, database and any associated documentation
+ shall at all times remain with University of Texas at Dallas and 
+LICENSEE agrees to preserve same.
+ -->
+
+<xsd:simpleType name="synsetIDType">
+  <xsd:restriction base="xsd:integer">
+    <xsd:totalDigits value="8"/>
+    <xsd:minExclusive value="0"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="wPosType">
+  <xsd:restriction base="xsd:string">
+    <xsd:enumeration value="CC"/>
+    <xsd:enumeration value="CD"/>
+    <xsd:enumeration value="DT"/>
+    <xsd:enumeration value="EX"/>
+    <xsd:enumeration value="FW"/>
+    <xsd:enumeration value="IN"/>
+    <xsd:enumeration value="JJ"/>
+    <xsd:enumeration value="JJR"/>
+    <xsd:enumeration value="JJS"/>
+    <xsd:enumeration value="LS"/>
+    <xsd:enumeration value="MD"/>
+    <xsd:enumeration value="NN"/>
+    <xsd:enumeration value="NNS"/>
+    <xsd:enumeration value="NNP"/>
+    <xsd:enumeration value="NNPS"/>
+    <xsd:enumeration value="PDT"/>
+    <xsd:enumeration value="POS"/>
+    <xsd:enumeration value="PRP"/>
+    <xsd:enumeration value="PRP$"/>
+    <xsd:enumeration value="RB"/>
+    <xsd:enumeration value="RBR"/>
+    <xsd:enumeration value="RBS"/>
+    <xsd:enumeration value="RP"/>
+    <xsd:enumeration value="SYM"/>
+    <xsd:enumeration value="TO"/>
+    <xsd:enumeration value="UH"/>
+    <xsd:enumeration value="VB"/>
+    <xsd:enumeration value="VBD"/>
+    <xsd:enumeration value="VBG"/>
+    <xsd:enumeration value="VBN"/>
+    <xsd:enumeration value="VBP"/>
+    <xsd:enumeration value="VBZ"/>
+    <xsd:enumeration value="WDT"/>
+    <xsd:enumeration value="WP"/>
+    <xsd:enumeration value="WP$"/>
+    <xsd:enumeration value="WRB"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="puncType">
+  <xsd:restriction base="xsd:string">
+    <xsd:pattern value="([^a-zA-Z0-9])+"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="glossPosType">
+  <xsd:restriction base="xsd:string">
+    <xsd:enumeration value="NOUN"/>
+    <xsd:enumeration value="VERB"/>
+    <xsd:enumeration value="ADJ"/>
+    <xsd:enumeration value="ADV"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="glossQualityType">
+  <xsd:restriction base="xsd:string">
+    <xsd:enumeration value="GOLD"/>
+    <xsd:enumeration value="SILVER"/>
+    <xsd:enumeration value="NORMAL"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+
+<xsd:simpleType name="qualityType">
+  <xsd:restriction base="xsd:string">
+    <xsd:enumeration value="gold"/>
+    <xsd:enumeration value="silver"/>
+    <xsd:enumeration value="normal"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:simpleType name="senseType">
+  <xsd:restriction base="xsd:integer">
+    <xsd:minInclusive value="1"/>
+  </xsd:restriction>
+</xsd:simpleType>
+
+<xsd:complexType name="wfType">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute name="pos" type="wPosType" use="required"/>
+      <xsd:attribute name="lemma" type="xsd:string" use="optional"/>
+      <xsd:attribute name="quality" type="qualityType" use="optional" default="normal"/>
+      <xsd:attribute name="wnsn" type="senseType" use="optional"/>
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+
+<xsd:complexType name="wsdType">
+  <xsd:all>
+     <xsd:element name="punc" type="puncType" minOccurs="0" maxOccurs="unbounded"/>
+     <xsd:element name="wf" type="wfType" minOccurs="0" maxOccurs="unbounded"/>
+  </xsd:all>
+</xsd:complexType>
+
+<xsd:complexType name="parseType">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute name="quality" type="glossQualityType" use="optional"/>
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+<xsd:complexType name="lftType">
+  <xsd:simpleContent>
+    <xsd:extension base="xsd:string">
+      <xsd:attribute name="quality" type="glossQualityType" use="optional"/>
+    </xsd:extension>
+  </xsd:simpleContent>
+</xsd:complexType>
+
+
+<xsd:element name="xwn">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element name="gloss" minOccurs="0" maxOccurs="unbounded">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="synonymSet" type="xsd:string"/>
+            <xsd:element name="text" type="xsd:string"/>
+	    <xsd:element name="wsd" type="wsdType"/>
+            <xsd:element name="parse" type="parseType" minOccurs="1" maxOccurs="unbounded"/>
+            <xsd:element name="lft" type="lftType" minOccurs="1" maxOccurs="unbounded"/>
+          </xsd:sequence>
+          <xsd:attribute name="synsetID" type="synsetIDType" use="required"/>
+          <xsd:attribute name="pos" type="glossPosType" use="required"/>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:sequence>
+    <xsd:attribute name="ver" type="xsd:string"/>
+    <xsd:attribute name="wnver" type="xsd:string"/>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>
